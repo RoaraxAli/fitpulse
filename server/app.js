@@ -22,6 +22,7 @@ const { router: searchRouter } = require('./routes/search');
 const { router: reportsRouter } = require('./routes/reports');
 const { router: accountRouter } = require('./routes/account');
 const { router: chatRouter } = require('./routes/chat');
+const { router: adminRouter } = require('./routes/admin');
 
 function createApp() {
   const app = express();
@@ -68,6 +69,7 @@ function createApp() {
   app.use('/api/search', searchRouter);
   app.use('/api/reports', reportsRouter);
   app.use('/api/chat', chatRouter);
+  app.use('/api/admin', adminRouter);
   app.use('/api', socialRouter);
   app.use('/api', accountRouter);
   app.use('/api', notFound);

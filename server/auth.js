@@ -150,6 +150,16 @@ function requireAuth(req, res, next) {
   return next();
 }
 
+function requireAdmin(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ error: { code: 'unauthorized', message: 'Please sign in to continue.' } });
+  }
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: { code: 'forbidden', message: 'Admin access required.' } });
+  }
+  return next();
+}
+
 module.exports = {
   hashPassword,
   verifyPassword,
@@ -161,4 +171,5 @@ module.exports = {
   clearAuthCookie,
   attachUser,
   requireAuth,
+  requireAdmin,
 };

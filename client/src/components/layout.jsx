@@ -23,6 +23,7 @@ const SECONDARY_NAV = [
 
 const TITLES = {
   '/dashboard': 'Dashboard',
+  '/admin': 'Admin',
   '/coach': 'Coach',
   '/workouts': 'Workouts',
   '/nutrition': 'Nutrition',
@@ -261,6 +262,12 @@ export function AppShell({ children, route }) {
           {PRIMARY_NAV.map((item) => (
             <NavItem key={item.path} item={item} active={isActive(item.path)} />
           ))}
+          {user.role === 'admin' && (
+            <>
+              <span className="nav-section">Admin</span>
+              <NavItem item={{ path: '/admin', label: 'Admin panel', icon: 'shield' }} active={isActive('/admin')} />
+            </>
+          )}
           <span className="nav-section">Account</span>
           {SECONDARY_NAV.map((item) => (
             <NavItem key={item.path} item={item} active={isActive(item.path)} badge={item.path === '/notifications' ? unread : 0} />

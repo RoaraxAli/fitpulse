@@ -14,6 +14,7 @@ import { NotificationsPage } from './pages/Notifications';
 import { SettingsPage } from './pages/Settings';
 import { ProfilePage } from './pages/Profile';
 import { CoachPage } from './pages/Coach';
+import { AdminPage } from './pages/Admin';
 import { Logo } from './icons';
 import { Button, Empty } from './components/ui';
 import './styles.css';
@@ -71,7 +72,7 @@ function Router() {
 
   if (!user) return <AuthPage />;
 
-  const root = route.segments[0] || 'dashboard';
+  const root = route.segments[0] || (user.role === 'admin' ? 'admin' : 'dashboard');
 
   const renderPage = () => {
     switch (root) {
@@ -95,6 +96,8 @@ function Router() {
         return <ProfilePage route={route} />;
       case 'coach':
         return <CoachPage />;
+      case 'admin':
+        return <AdminPage />;
       default:
         return (
           <Empty

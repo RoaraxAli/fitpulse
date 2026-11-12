@@ -438,12 +438,12 @@ async function seedDatabase({ reset = false } = {}) {
         stepGoal: 11000,
       },
     },
-  ].map((user) => ({
+  ].map((user, index) => ({
     ...user,
     passwordHash,
     avatar: null,
     birthdate: null,
-    role: 'user',
+    role: index === 0 ? 'admin' : 'user',
     createdAt: new Date(Date.now() - 120 * 86400000),
     updatedAt: now,
     lastLoginAt: new Date(Date.now() - 3600000),
