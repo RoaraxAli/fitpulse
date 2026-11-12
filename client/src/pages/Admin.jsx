@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth, useToast } from '../state';
 import { navigate } from '../router';
-import { Avatar, Badge, Button, Card, CardHead, Empty, PageHeader, Skeleton, Tabs, Input, IconButton } from '../components/ui';
+import { Avatar, Badge, Button, Card, CardHead, Empty, PageHeader, Skeleton, Input, IconButton } from '../components/ui';
 import { Icon } from '../icons';
 import { api } from '../api';
 import { fmtDate, fmtNumber } from '../utils';
 import { classNames } from '../utils';
 
 const TABS = [
-  { value: 'overview', label: 'Overview' },
-  { value: 'analytics', label: 'Analytics' },
-  { value: 'users', label: 'Users' },
-  { value: 'workouts', label: 'Workouts' },
-  { value: 'logs', label: 'Workout logs' },
-  { value: 'nutrition', label: 'Nutrition' },
-  { value: 'posts', label: 'Posts' },
-  { value: 'replies', label: 'Replies' },
-  { value: 'goals', label: 'Goals' },
-  { value: 'measurements', label: 'Measurements' },
-  { value: 'foods', label: 'Foods' },
-  { value: 'exercises', label: 'Exercises' },
-  { value: 'tickets', label: 'Tickets' },
-  { value: 'broadcast', label: 'Broadcast' },
+  { value: 'overview', label: 'Overview', icon: 'home' },
+  { value: 'analytics', label: 'Analytics', icon: 'chart' },
+  { value: 'users', label: 'Users', icon: 'users' },
+  { value: 'workouts', label: 'Workouts', icon: 'dumbbell' },
+  { value: 'logs', label: 'Workout logs', icon: 'list' },
+  { value: 'nutrition', label: 'Nutrition', icon: 'apple' },
+  { value: 'posts', label: 'Posts', icon: 'message' },
+  { value: 'replies', label: 'Replies', icon: 'message' },
+  { value: 'goals', label: 'Goals', icon: 'target' },
+  { value: 'measurements', label: 'Measurements', icon: 'ruler' },
+  { value: 'foods', label: 'Foods', icon: 'utensils' },
+  { value: 'exercises', label: 'Exercises', icon: 'dumbbell' },
+  { value: 'tickets', label: 'Tickets', icon: 'info' },
+  { value: 'broadcast', label: 'Broadcast', icon: 'bell' },
 ];
 
 export function AdminPage() {
@@ -46,15 +46,23 @@ export function AdminPage() {
   }
 
   return (
-    <div className="page-stack">
-      <PageHeader
-        eyebrow="Administration"
-        title="Admin panel"
-        subtitle="Manage users, content and activity across FitPulse."
-        actions={<Badge tone="accent">Admin</Badge>}
-      />
-      <Tabs tabs={TABS} value={tab} onChange={setTab} />
-
+    <div className="admin-layout">
+      <aside className="admin-sidebar" aria-label="Admin navigation">
+        <div className="admin-sidebar-heading"><span>Workspace</span><Badge tone="accent">Admin</Badge></div>
+        <nav className="admin-sidebar-nav">
+          {TABS.map((item) => (
+            <button key={item.value} type="button" className={classNames('admin-sidebar-item', tab === item.value && 'is-active')} onClick={() => setTab(item.value)} aria-current={tab === item.value ? 'page' : undefined}>
+              <Icon name={item.icon} size={18} /><span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      </aside>
+      <section className="admin-main page-stack">
+        <PageHeader
+          eyebrow="Administration"
+          title="Admin panel"
+          subtitle="Manage users, content and activity across FitPulse."
+        />
       {tab === 'overview' && <OverviewTab />}
       {tab === 'analytics' && <AnalyticsTab />}
       {tab === 'users' && <UsersTab query={query} setQuery={setQuery} toast={toast} />}
@@ -69,6 +77,7 @@ export function AdminPage() {
       {tab === 'exercises' && <ExercisesTab toast={toast} />}
       {tab === 'tickets' && <TicketsTab toast={toast} />}
       {tab === 'broadcast' && <BroadcastTab toast={toast} />}
+      </section>
     </div>
   );
 }

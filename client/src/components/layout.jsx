@@ -192,7 +192,7 @@ function MoreSheet({ open, onClose, unread }) {
 }
 
 export function AppShell({ children, route }) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { toast } = useToast();
   const [unread, setUnread] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -295,6 +295,17 @@ export function AppShell({ children, route }) {
             </span>
             <Icon name="chevronRight" size={16} />
           </a>
+          <button
+            type="button"
+            className="sidebar-signout"
+            onClick={async () => {
+              await logout();
+              navigate('/dashboard');
+            }}
+          >
+            <Icon name="logout" size={17} />
+            <span>Sign out</span>
+          </button>
         </div>
       </aside>
 

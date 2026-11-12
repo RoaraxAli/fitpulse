@@ -57,7 +57,7 @@ class ErrorBoundary extends Component {
 }
 
 function Router() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
   const route = useRoute();
 
   if (loading) {
@@ -117,7 +117,10 @@ function Router() {
       <div className="admin-workspace">
         <header className="admin-workspace-bar">
           <a href="#/admin" className="admin-workspace-brand"><Logo size={34} /> <strong>FitPulse Admin</strong></a>
-          <Button variant="secondary" icon="chevronLeft" onClick={() => { window.location.hash = '#/dashboard'; }}>Back to FitPulse</Button>
+          <div className="admin-workspace-actions">
+            <Button variant="secondary" icon="chevronLeft" onClick={() => { window.location.hash = '#/dashboard'; }}>Back to FitPulse</Button>
+            <Button variant="ghost" icon="logout" onClick={async () => { await logout(); }}>Log out</Button>
+          </div>
         </header>
         <main className="admin-workspace-content"><ErrorBoundary>{renderPage()}</ErrorBoundary></main>
       </div>
