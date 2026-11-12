@@ -51,7 +51,7 @@ module.exports = {
   jwtTtlSeconds: 7 * 24 * 60 * 60,
   cookieName: 'fp_token',
   seedOnEmpty: bool(process.env.SEED_ON_EMPTY, true),
-  uploadDir: path.join(__dirname, '..', 'data', 'uploads'),
+  uploadDir: process.env.UPLOAD_DIR || (process.env.VERCEL ? '/tmp/fitpulse-uploads' : path.join(__dirname, '..', 'data', 'uploads')),
   maxBody: '6mb',
   appName: 'FitPulse',
   version: '1.0.0',
