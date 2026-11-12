@@ -69,6 +69,7 @@ streaks and reports have something to show.
 | `GOOGLE_CLIENT_SECRET` | _(empty)_             | Google OAuth client secret                |
 | `GOOGLE_REDIRECT_URI` | _(empty)_               | Must match the Google console exactly     |
 | `APP_BASE_URL`   | `https://…/fitness`         | Where users land after Google sign-in     |
+| `SEED_ON_EMPTY`  | `true`                      | Seed demo data when the database is empty |
 
 ## Features
 
@@ -132,6 +133,31 @@ GET    /api/settings            PATCH /api/settings
 GET    /api/support/tickets     POST /api/support/tickets
 GET    /api/health
 ```
+
+## Deploying to Vercel
+
+The repo ships a `vercel.json` plus an `api/index.js` serverless entry point, so Vercel can
+build the Vite client (`dist/`) and run the Express API as a single function:
+
+1. Import the GitHub repo in Vercel (or `vercel` CLI) and let it auto-detect the build.
+2. Set these environment variables in the Vercel project (Production + Preview):
+   - `MONGODB_URI` — the Atlas SRV string
+   - `MONGODB_DB` — `fitpulse`
+   - `JWT_SECRET` — a long random string
+   - `NODE_ENV` — `production`
+   - `SEED_ON_EMPTY` — `false` (data is already in Atlas)
+   - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+   - `GOOGLE_REDIRECT_URI` — `https://fitpulse.theali.app/api/auth/google/callback`
+   - `APP_BASE_URL` — `https://fitpulse.theali.app`
+3. In Google Cloud Console, add `https://fitpulse.theali.app/api/auth/google/callback` to the
+   OAuth client's Authorized redirect URIs (and add test users while the consent screen is
+   in Testing mode).
+4. In Atlas, keep `84.12.151.204` (and Vercel's egress IPs if you restrict access) on the
+   network access list. Vercel functions connect to Atlas from dynamic IPs, so allow
+   `0.0.0.0/0` for Atlas (auth is still enforced by the database user).
+
+Note: uploaded avatars are stored on the instance filesystem, which is ephemeral on Vercel.
+For a production deployment, move avatar storage to Atlas GridFS or an object store.
 
 ## Google sign-in
 
