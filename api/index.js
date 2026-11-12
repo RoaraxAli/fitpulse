@@ -26,7 +26,9 @@ module.exports = async (req, res) => {
     if (!res.headersSent) {
       res.statusCode = 503;
       res.setHeader('content-type', 'application/json');
-      res.end(JSON.stringify({ ok: false, error: { code: 'database_unavailable', message: 'Database unavailable.' } }));
+      console.error('FitPulse bootstrap failed:', error && error.message ? error.message : error);
+      console.error('MONGODB_URI set:', Boolean(process.env.MONGODB_URI), 'MONGODB_DB:', process.env.MONGODB_DB);
+      res.end(JSON.stringify({ ok: false, error: { code: 'database_unavailable', message: 'Database unavailable.', detail: String(error && error.message ? error.message : error) } }));
     }
   }
 };
