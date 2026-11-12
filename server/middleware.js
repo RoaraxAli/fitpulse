@@ -16,9 +16,9 @@ function securityHeaders(req, res, next) {
   const csp = [
     "default-src 'self'",
     "script-src 'self'",
-    "style-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https://*.googleusercontent.com",
-    "font-src 'self' data:",
+    "font-src 'self' data: https://fonts.gstatic.com",
     "connect-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
