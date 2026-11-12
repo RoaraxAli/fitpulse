@@ -2154,3 +2154,79 @@ html[data-theme='light'] ::-webkit-scrollbar-thumb { background: rgba(12, 30, 18
 
 /* Scroll-to-top smooth */
 html { scroll-behavior: smooth; }
+
+/* ==========================================================================
+   Coach (AI chat)
+   ========================================================================== */
+.coach-card { display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden; }
+.coach-messages {
+  flex: 1;
+  min-height: 420px;
+  max-height: 62vh;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
+}
+.coach-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 40px 20px; }
+.coach-empty h3 { font-size: 18px; }
+.coach-empty p { color: var(--muted); font-size: 13px; }
+.coach-suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+
+.coach-msg { display: flex; gap: 10px; align-items: flex-start; max-width: 86%; animation: fadeUp 0.3s ease both; }
+.coach-msg.is-user { align-self: flex-end; flex-direction: row-reverse; }
+.coach-msg.is-assistant { align-self: flex-start; }
+.coach-avatar {
+  width: 30px; height: 30px; flex: none; display: grid; place-items: center;
+  border-radius: 9px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-ink); box-shadow: 0 6px 16px -8px rgba(200,255,62,0.5);
+}
+.coach-bubble {
+  padding: 12px 15px; border-radius: 16px; font-size: 14px; line-height: 1.55;
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--ink-soft);
+  box-shadow: var(--shadow-sm);
+}
+.coach-msg.is-user .coach-bubble {
+  background: linear-gradient(135deg, rgba(200,255,62,0.18), rgba(61,232,195,0.10));
+  border-color: rgba(200,255,62,0.3); color: var(--ink);
+}
+.coach-msg.is-assistant .coach-bubble { border-top-left-radius: 6px; }
+.coach-msg.is-user .coach-bubble { border-top-right-radius: 6px; }
+
+.coach-md p { margin: 0 0 8px; }
+.coach-md p:last-child { margin-bottom: 0; }
+.coach-md .md-h { font-weight: 650; color: var(--ink); margin: 10px 0 4px; font-size: 13.5px; }
+.coach-md .md-list { margin: 6px 0 8px 18px; padding: 0; }
+.coach-md .md-list li { margin-bottom: 4px; }
+.coach-md strong { color: var(--ink); font-weight: 650; }
+.coach-md code { font-family: var(--mono); font-size: 12px; background: var(--surface-3); padding: 1px 5px; border-radius: 4px; }
+.coach-md .md-gap { height: 4px; }
+
+.coach-caret {
+  display: inline-block; width: 8px; height: 14px; background: var(--accent);
+  margin-left: 3px; vertical-align: text-bottom; animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.coach-typing { display: inline-flex; gap: 4px; align-items: center; height: 18px; }
+.coach-typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+.coach-typing span:nth-child(2) { animation-delay: 0.15s; }
+.coach-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingDot { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+.coach-input {
+  display: flex; gap: 10px; align-items: center;
+  padding: 14px 18px; border-top: 1px solid var(--border);
+  background: var(--surface-2); backdrop-filter: blur(8px);
+}
+.coach-input .input { flex: 1; }
+
+@media (max-width: 760px) {
+  .coach-msg { max-width: 96%; }
+  .coach-messages { max-height: 58vh; min-height: 360px; }
+}

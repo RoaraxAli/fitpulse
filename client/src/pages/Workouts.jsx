@@ -425,7 +425,7 @@ function LogModal({ open, initialRoutine, onClose, onSaved }) {
   );
 }
 
-function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete }) {
+function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate }) {
   if (!routine) return null;
   return (
     <Modal
@@ -436,9 +436,16 @@ function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete }) {
       size="md"
       footer={
         <>
-          <Button variant="danger" icon="trash" onClick={() => onDelete(routine)}>Delete</Button>
+          {!routine.isTemplate && (
+            <Button variant="danger" icon="trash" onClick={() => onDelete(routine)}>Delete</Button>
+          )}
           <span className="spacer" />
-          <Button variant="secondary" icon="edit" onClick={() => onEdit(routine)}>Edit</Button>
+          {routine.isTemplate && (
+            <Button variant="secondary" icon="copy" onClick={() => onDuplicate(routine)}>Duplicate</Button>
+          )}
+          {!routine.isTemplate && (
+            <Button variant="secondary" icon="edit" onClick={() => onEdit(routine)}>Edit</Button>
+          )}
           <Button icon="play" onClick={() => onLog(routine)}>Log this</Button>
         </>
       }
@@ -446,7 +453,8 @@ function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete }) {
       {routine.description && <p className="detail-description">{routine.description}</p>}
       <div className="tag-row">
         {routine.tags.map((tag) => <Badge key={tag} tone="neutral">#{tag}</Badge>)}
-        {routine.isPublic && <Badge tone="teal">Public</Badge>}
+        {routine.isTemplate && <Badge tone="accent">Template</Badge>}
+        {routine.isPublic && !routine.isTemplate && <Badge tone="teal">Public</Badge>}
       </div>
       <div className="table-wrap">
         <table className="table">
@@ -477,12 +485,13 @@ export function WorkoutsPage({ route }) {
   const [query, setQuery] = useState(route.query.get('q') || '');
   const debounced = useDebounced(query, 250);
   const [category, setCategory] = useState('all');
+  const [scope, setScope] = useState('all');
   const [historyCategory, setHistoryCategory] = useState('all');
   const [routineModal, setRoutineModal] = useState({ open: false, initial: null });
   const [logModal, setLogModal] = useState({ open: false, routine: null });
   const [detail, setDetail] = useState(null);
 
-  const routines = useApi(`/workouts?limit=60&q=${encodeURIComponent(debounced)}&category=${category === 'all' ? '' : category}`);
+  const routines = useApi(`/workouts?limit=60&q=${encodeURIComponent(debounced)}&category=${category === 'all' ? '' : category}&scope=${scope}`);
   const logs = useApi(`/workout-logs?limit=50&q=${encodeURIComponent(debounced)}&category=${historyCategory === 'all' ? '' : historyCategory}`);
   const prs = useApi('/workout-logs/prs');
   const catalog = useApi('/workouts/meta/exercises');
@@ -573,6 +582,17 @@ export function WorkoutsPage({ route }) {
       {tab === 'routines' && (
         <>
           <div className="filter-row">
+            {[
+              { value: 'all', label: 'All' },
+              { value: 'mine', label: 'My routines' },
+              { value: 'templates', label: 'Templates' },
+            ].map((item) => (
+              <Chip key={item.value} active={scope === item.value} onClick={() => setScope(item.value)}>
+                {item.label}
+              </Chip>
+            ))}
+          </div>
+          <div className="filter-row">
             {['all', ...CATEGORIES].map((item) => (
               <Chip key={item} active={category === item} onClick={() => setCategory(item)}>
                 {item === 'all' ? 'All' : CATEGORY_META[item].label}
@@ -597,8 +617,11 @@ export function WorkoutsPage({ route }) {
                 <Card key={routine.id} className="routine-card">
                   <div className="routine-card-top">
                     <Badge tone={routine.category}>{CATEGORY_META[routine.category]?.label || routine.category}</Badge>
+                    {routine.isTemplate && <Badge tone="accent">Template</Badge>}
                     <div className="routine-menu">
-                      <IconButton icon="edit" label="Edit routine" size="sm" onClick={() => setRoutineModal({ open: true, initial: routine })} />
+                      {!routine.isTemplate && (
+                        <IconButton icon="edit" label="Edit routine" size="sm" onClick={() => setRoutineModal({ open: true, initial: routine })} />
+                      )}
                       <IconButton icon="more" label="More options" size="sm" onClick={() => setDetail(routine)} />
                     </div>
                   </div>
@@ -609,7 +632,8 @@ export function WorkoutsPage({ route }) {
                   <div className="routine-meta">
                     <span><Icon name="dumbbell" size={14} /> {routine.exerciseCount} exercises</span>
                     <span><Icon name="list" size={14} /> {routine.totalSets} sets</span>
-                    {routine.isPublic && <span><Icon name="users" size={14} /> Public</span>}
+                    {routine.isTemplate && <span><Icon name="sparkles" size={14} /> Template</span>}
+                    {routine.isPublic && !routine.isTemplate && <span><Icon name="users" size={14} /> Public</span>}
                   </div>
                   <div className="tag-row">
                     {routine.tags.slice(0, 3).map((tag) => <span key={tag} className="tag">#{tag}</span>)}
@@ -748,6 +772,10 @@ export function WorkoutsPage({ route }) {
         onLog={(routine) => {
           setDetail(null);
           setLogModal({ open: true, routine });
+        }}
+        onDuplicate={async (routine) => {
+          await duplicateRoutine(routine);
+          setDetail(null);
         }}
         onDelete={deleteRoutine}
       />

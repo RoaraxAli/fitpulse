@@ -88,9 +88,16 @@ router.get('/', requireAuth, async (req, res) => {
   const category = str(req.query.category, 20);
   const tag = str(req.query.tag, 30);
   const sort = str(req.query.sort, 20) || 'recent';
+  const scope = str(req.query.scope, 20) || 'all';
   const { page, limit, skip } = pagination(req.query, 12, 60);
 
-  const filter = { userId: req.user._id };
+  const scopeFilter =
+    scope === 'mine'
+      ? { userId: req.user._id }
+      : scope === 'templates'
+        ? { isTemplate: true }
+        : { $or: [{ userId: req.user._id }, { isTemplate: true }] };
+  const filter = { ...scopeFilter };
   if (category && category !== 'all') filter.category = category;
   if (q) {
     filter.$or = [
@@ -150,7 +157,7 @@ router.get('/:id', requireAuth, async (req, res) => {
   if (!id) throw notFound('Routine not found.');
   const doc = await getDb().collection('workouts').findOne({ _id: id });
   if (!doc) throw notFound('Routine not found.');
-  if (String(doc.userId) !== String(req.user._id) && !doc.isPublic) throw notFound('Routine not found.');
+  if (String(doc.userId) !== String(req.user._id) && !doc.isPublic && !doc.isTemplate) throw notFound('Routine not found.');
   res.json({ workout: workout(doc) });
 });
 
@@ -201,7 +208,7 @@ router.post('/:id/duplicate', requireAuth, async (req, res) => {
   const db = getDb();
   const existing = await db.collection('workouts').findOne({ _id: id });
   if (!existing) throw notFound('Routine not found.');
-  if (String(existing.userId) !== String(req.user._id) && !existing.isPublic) throw notFound('Routine not found.');
+  if (String(existing.userId) !== String(req.user._id) && !existing.isPublic && !existing.isTemplate) throw notFound('Routine not found.');
   const now = new Date();
   const doc = {
     userId: req.user._id,

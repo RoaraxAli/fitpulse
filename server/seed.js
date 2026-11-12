@@ -461,12 +461,13 @@ async function seedDatabase({ reset = false } = {}) {
 
   // Routines -----------------------------------------------------------------
   const routineDocs = ROUTINES.map((routine) => ({
-    userId: alex,
+    userId: null,
     name: routine.name,
     category: routine.category,
     description: routine.description,
     tags: routine.tags,
     isPublic: true,
+    isTemplate: true,
     exercises: routine.exercises,
     createdAt: new Date(Date.now() - 100 * 86400000),
     updatedAt: new Date(Date.now() - 10 * 86400000),

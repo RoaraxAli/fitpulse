@@ -59,4 +59,6 @@ module.exports = {
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
   googleRedirectUri: process.env.GOOGLE_REDIRECT_URI || '',
   appBaseUrl: (process.env.APP_BASE_URL || 'https://84.12.151.204.nip.io/fitness').replace(/\/$/, ''),
+  geminiApiKey: process.env.GEMINI_API_KEY || '',
+  geminiModel: process.env.GEMINI_MODEL || 'gemini-3.5-flash',
 };

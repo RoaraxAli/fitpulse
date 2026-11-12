@@ -21,6 +21,7 @@ const { notifications, reminders } = require('./routes/engagement');
 const { router: searchRouter } = require('./routes/search');
 const { router: reportsRouter } = require('./routes/reports');
 const { router: accountRouter } = require('./routes/account');
+const { router: chatRouter } = require('./routes/chat');
 
 function createApp() {
   const app = express();
@@ -34,6 +35,7 @@ function createApp() {
 
   app.use('/api/auth/login', rateLimit({ windowMs: 60_000, max: 15, message: 'Too many sign-in attempts. Try again in a minute.' }));
   app.use('/api/auth/register', rateLimit({ windowMs: 60_000, max: 10, message: 'Too many sign-up attempts. Try again in a minute.' }));
+  app.use('/api/chat', rateLimit({ windowMs: 60_000, max: 30, message: 'Slow down — too many messages. Try again in a minute.' }));
   app.use('/api', rateLimit({ windowMs: 60_000, max: 900 }));
 
   app.use(attachUser);
@@ -65,6 +67,7 @@ function createApp() {
   app.use('/api/reminders', reminders);
   app.use('/api/search', searchRouter);
   app.use('/api/reports', reportsRouter);
+  app.use('/api/chat', chatRouter);
   app.use('/api', socialRouter);
   app.use('/api', accountRouter);
   app.use('/api', notFound);

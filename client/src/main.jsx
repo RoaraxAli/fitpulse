@@ -13,6 +13,7 @@ import { CommunityPage } from './pages/Community';
 import { NotificationsPage } from './pages/Notifications';
 import { SettingsPage } from './pages/Settings';
 import { ProfilePage } from './pages/Profile';
+import { CoachPage } from './pages/Coach';
 import { Logo } from './icons';
 import { Button, Empty } from './components/ui';
 import './styles.css';
@@ -92,6 +93,8 @@ function Router() {
         return <SettingsPage />;
       case 'profile':
         return <ProfilePage route={route} />;
+      case 'coach':
+        return <CoachPage />;
       default:
         return (
           <Empty

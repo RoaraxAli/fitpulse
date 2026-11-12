@@ -8,6 +8,7 @@ import { classNames, fmtDateLong, todayISO } from '../utils';
 
 const PRIMARY_NAV = [
   { path: '/dashboard', label: 'Dashboard', icon: 'home' },
+  { path: '/coach', label: 'Coach', icon: 'sparkles' },
   { path: '/workouts', label: 'Workouts', icon: 'dumbbell' },
   { path: '/nutrition', label: 'Nutrition', icon: 'apple' },
   { path: '/progress', label: 'Progress', icon: 'target' },
@@ -22,6 +23,7 @@ const SECONDARY_NAV = [
 
 const TITLES = {
   '/dashboard': 'Dashboard',
+  '/coach': 'Coach',
   '/workouts': 'Workouts',
   '/nutrition': 'Nutrition',
   '/progress': 'Progress',
