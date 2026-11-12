@@ -81,7 +81,7 @@ export function SettingsPage() {
     event.preventDefault();
     setSavingProfile(true);
     try {
-      const { data } = await api.patch('/users/me', {
+      const result = await api.patch('/users/me', {
         name: profile.name,
         bio: profile.bio,
         location: profile.location,
@@ -89,7 +89,7 @@ export function SettingsPage() {
         birthdate: profile.birthdate || null,
         gender: profile.gender || null,
       });
-      mergeUser(data.user);
+      mergeUser(result.user);
       toast('Profile updated.');
     } catch (error) {
       toast(error.message, 'error');
