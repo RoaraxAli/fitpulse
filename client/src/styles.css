@@ -398,6 +398,11 @@ svg { display: block; }
 }
 .page:focus { outline: none; }
 .page-stack { display: flex; flex-direction: column; gap: 22px; }
+.admin-workspace { min-height: 100vh; background: var(--bg); }
+.admin-workspace-bar { position: sticky; top: 0; z-index: 20; min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px clamp(18px, 4vw, 56px); background: var(--surface); border-bottom: 1px solid var(--line); }
+.admin-workspace-brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; }
+.admin-workspace-content { width: min(1440px, 100%); margin: 0 auto; padding: 32px clamp(18px, 4vw, 56px) 64px; }
+@media (max-width: 600px) { .admin-workspace-bar { min-height: 60px; padding: 10px 14px; } .admin-workspace-brand strong { font-size: 14px; } .admin-workspace-content { padding: 22px 14px 40px; } }
 
 .page-header {
   display: flex;

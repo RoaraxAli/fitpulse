@@ -110,6 +110,20 @@ function Router() {
     }
   };
 
+  // The admin area is a separate workspace. Keep its route outside the
+  // member navigation shell so it does not appear as a section of the user app.
+  if (root === 'admin') {
+    return (
+      <div className="admin-workspace">
+        <header className="admin-workspace-bar">
+          <a href="#/admin" className="admin-workspace-brand"><Logo size={34} /> <strong>FitPulse Admin</strong></a>
+          <Button variant="secondary" icon="chevronLeft" onClick={() => { window.location.hash = '#/dashboard'; }}>Back to FitPulse</Button>
+        </header>
+        <main className="admin-workspace-content"><ErrorBoundary>{renderPage()}</ErrorBoundary></main>
+      </div>
+    );
+  }
+
   return (
     <AppShell route={route}>
       <ErrorBoundary>{renderPage()}</ErrorBoundary>
