@@ -11,6 +11,9 @@ const logger = require('./server/utils/logger');
 const redact = (uri) => uri.replace(/\/\/([^:@/]+):([^@/]+)@/, '//***:***@');
 
 async function openDatabase() {
+  if (process.env.VERCEL && !process.env.MONGODB_URI) {
+    throw new Error('MONGODB_URI is not set in the Vercel environment variables.');
+  }
   try {
     await connect(config.mongoUri, config.dbName);
     logger.info(`Connected to MongoDB (${redact(config.mongoUri)}/${config.dbName})`);
