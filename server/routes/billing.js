@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const { getDb } = require('../db');
 const { requireAuth } = require('../auth');
 const config = require('../config');
-const { assertOk } = require('../utils');
+const { assertOk, HttpError } = require('../utils');
 
 const router = express.Router();
 const PRICE_CENTS = 500;
@@ -25,9 +25,21 @@ async function stripeRequest(path, params, method = 'POST') {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const error = new Error(data?.error?.message || 'Stripe request failed.');
-    error.status = response.status;
-    throw error;
+    const stripeError = data?.error || {};
+    // Keep Stripe's diagnostic useful in Vercel function logs without ever
+    // logging the Authorization header or secret key.
+    console.error('Stripe API request failed:', JSON.stringify({
+      status: response.status,
+      type: stripeError.type,
+      code: stripeError.code,
+      message: stripeError.message,
+      requestId: response.headers.get('request-id'),
+    }));
+    throw new HttpError(
+      502,
+      'stripe_request_failed',
+      stripeError.message || 'Stripe could not create the checkout session.'
+    );
   }
   return data;
 }
