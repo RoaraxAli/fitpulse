@@ -87,23 +87,14 @@ export function Icon({ name = 'circle', size = 20, strokeWidth = 1.8, className 
 export function Logo({ size = 34, withText = true }) {
   return (
     <span className="logo" aria-label="FitPulse">
-      <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true" className="logo-mark">
-        <defs>
-          <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#c9f75a" />
-            <stop offset="1" stopColor="#4fe3c1" />
-          </linearGradient>
-        </defs>
-        <rect width="64" height="64" rx="16" fill="var(--logo-bg, #101512)" />
-        <path
-          d="M12 34h9l4-12 7 24 5-18 3 6h12"
-          fill="none"
-          stroke="url(#brandGradient)"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <img
+        src="./logo.png"
+        alt="FitPulse"
+        height={size}
+        className="logo-mark"
+        style={{ height: size, width: 'auto', display: 'block' }}
+        aria-hidden="true"
+      />
       {withText && (
         <span className="logo-text">
           Fit<span>Pulse</span>

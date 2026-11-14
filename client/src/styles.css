@@ -223,7 +223,7 @@ svg { display: block; }
 }
 
 .logo { display: inline-flex; align-items: center; gap: 10px; }
-.logo-mark { border-radius: 11px; flex: none; box-shadow: var(--shadow-sm); }
+.logo-mark { flex: none; filter: drop-shadow(0 6px 16px rgba(200, 255, 62, 0.25)); }
 .logo-text {
   font-weight: 750;
   font-size: 20px;
