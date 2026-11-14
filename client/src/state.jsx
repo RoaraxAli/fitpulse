@@ -66,12 +66,7 @@ function ToastProvider({ children }) {
 }
 
 function applyTheme(theme) {
-  const resolved =
-    theme === 'system'
-      ? window.matchMedia('(prefers-color-scheme: light)').matches
-        ? 'light'
-        : 'dark'
-      : theme || 'dark';
+  const resolved = theme === 'light' ? 'light' : 'dark';
   document.documentElement.dataset.theme = resolved;
   document.documentElement.style.colorScheme = resolved;
   const brandColors = { primary: '#faf7f0', secondary: '#2457d6', text: '#222a38', ...(window.__FITPULSE_BRAND_COLORS__ || {}) };
@@ -110,14 +105,6 @@ function AuthProvider({ children }) {
   useEffect(() => {
     applyTheme(user?.theme || localStorage.getItem('fp-theme') || 'light');
     localStorage.setItem('fp-theme', user?.theme || localStorage.getItem('fp-theme') || 'dark');
-  }, [user?.theme]);
-
-  useEffect(() => {
-    if (user?.theme !== 'system') return undefined;
-    const query = window.matchMedia('(prefers-color-scheme: light)');
-    const handler = () => applyTheme('system');
-    query.addEventListener('change', handler);
-    return () => query.removeEventListener('change', handler);
   }, [user?.theme]);
 
   const login = useCallback(async (identifier, password) => {

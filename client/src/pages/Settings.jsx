@@ -303,9 +303,8 @@ export function SettingsPage() {
                 </Field>
                 <Field label="Theme" htmlFor="pref-theme">
                   <Select id="pref-theme" value={prefs.theme} onChange={(event) => setPrefs((current) => ({ ...current, theme: event.target.value }))}>
-                    <option value="dark">Dark</option>
                     <option value="light">Light</option>
-                    <option value="system">Match system</option>
+                    <option value="dark">Dark</option>
                   </Select>
                 </Field>
                 <Field label="Timezone" htmlFor="pref-timezone">

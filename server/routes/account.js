@@ -105,7 +105,7 @@ router.patch('/settings', requireAuth, async (req, res) => {
     updates.unitSystem = body.unitSystem;
   }
   if (body.theme !== undefined) {
-    assertOk(['dark', 'light', 'system'].includes(body.theme), 'Theme must be dark, light or system.', 'theme');
+    assertOk(['dark', 'light'].includes(body.theme), 'Theme must be dark or light.', 'theme');
     updates.theme = body.theme;
   }
   if (body.isPublic !== undefined) updates.isPublic = Boolean(body.isPublic);
