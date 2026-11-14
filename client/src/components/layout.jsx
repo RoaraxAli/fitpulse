@@ -197,6 +197,8 @@ export function AppShell({ children, route }) {
   const [unread, setUnread] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
   const base = `/${route.segments[0] || 'dashboard'}`;
 
   const loadUnread = () => {
@@ -238,6 +240,24 @@ export function AppShell({ children, route }) {
   }, []);
 
   useEffect(() => {
+    if (!userMenuOpen) return undefined;
+    const onClick = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+    const onKey = (event) => {
+      if (event.key === 'Escape') setUserMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [userMenuOpen]);
+
+  useEffect(() => {
     const interval = setInterval(loadUnread, 90_000);
     return () => clearInterval(interval);
   }, []);
@@ -268,10 +288,6 @@ export function AppShell({ children, route }) {
               <NavItem item={{ path: '/admin', label: 'Admin panel', icon: 'shield' }} active={isActive('/admin')} />
             </>
           )}
-          <span className="nav-section">Account</span>
-          {SECONDARY_NAV.map((item) => (
-            <NavItem key={item.path} item={item} active={isActive(item.path)} badge={item.path === '/notifications' ? unread : 0} />
-          ))}
         </nav>
 
       </aside>
@@ -297,21 +313,42 @@ export function AppShell({ children, route }) {
               <Icon name="bell" size={19} />
               {unread > 0 && <span className="notif-dot">{unread > 9 ? '9+' : unread}</span>}
             </a>
-            <a href={`#/profile/${user.username}`} className="topbar-avatar" aria-label="Your profile">
-              <Avatar name={user.name} src={user.avatar} size={36} />
-            </a>
-            <button
-              type="button"
-              className="btn btn-icon"
-              aria-label="Sign out"
-              title="Sign out"
-              onClick={async () => {
-                await logout();
-                navigate('/dashboard');
-              }}
-            >
-              <Icon name="logout" size={19} />
-            </button>
+            <div className="user-menu" ref={userMenuRef}>
+              <button
+                type="button"
+                className="topbar-avatar user-menu-trigger"
+                aria-label="Your profile menu"
+                aria-expanded={userMenuOpen}
+                onClick={() => setUserMenuOpen((value) => !value)}
+              >
+                <Avatar name={user.name} src={user.avatar} size={36} />
+              </button>
+              {userMenuOpen && (
+                <div className="user-menu-dropdown" role="menu">
+                  <a href={`#/profile/${user.username}`} className="user-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>
+                    <Icon name="user" size={16} />
+                    <span>Profile</span>
+                  </a>
+                  <a href="#/settings" className="user-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>
+                    <Icon name="settings" size={16} />
+                    <span>Settings</span>
+                  </a>
+                  <button
+                    type="button"
+                    className="user-menu-item is-danger"
+                    role="menuitem"
+                    onClick={async () => {
+                      setUserMenuOpen(false);
+                      await logout();
+                      navigate('/dashboard');
+                    }}
+                  >
+                    <Icon name="logout" size={16} />
+                    <span>Sign out</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 

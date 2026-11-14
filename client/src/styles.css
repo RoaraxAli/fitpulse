@@ -349,6 +349,58 @@ svg { display: block; }
 .topbar-actions { display: flex; align-items: center; gap: 8px; }
 .topbar-avatar { display: block; border-radius: 50%; }
 
+/* ==========================================================================
+   User menu dropdown (glassmorphism)
+   ========================================================================== */
+.user-menu { position: relative; display: inline-flex; align-items: center; }
+.user-menu-trigger {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: inline-flex;
+}
+.user-menu-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  padding: 6px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--elevated) 72%, transparent);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 60;
+  animation: fadeIn 0.16s ease;
+}
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  font-weight: 550;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.user-menu-item:hover { background: var(--surface-3); color: var(--ink); }
+.user-menu-item.is-danger { color: var(--danger); }
+.user-menu-item.is-danger:hover { background: rgba(255, 107, 107, 0.12); color: var(--danger); }
+
 .search-trigger {
   display: flex;
   align-items: center;
