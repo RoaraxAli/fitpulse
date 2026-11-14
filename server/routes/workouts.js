@@ -143,6 +143,7 @@ router.post('/', requireAuth, async (req, res) => {
       ? body.tags.map((tag) => str(tag, 30)).filter(Boolean).slice(0, 10)
       : [],
     isPublic: bool(body.isPublic, false),
+    videoUrl: body.videoUrl === undefined ? null : str(body.videoUrl, 500) || null,
     exercises,
     createdAt: now,
     updatedAt: now,
@@ -180,6 +181,7 @@ router.put('/:id', requireAuth, async (req, res) => {
   if (body.description !== undefined) updates.description = str(body.description, 1000);
   if (body.tags !== undefined) updates.tags = Array.isArray(body.tags) ? body.tags.map((t) => str(t, 30)).filter(Boolean).slice(0, 10) : [];
   if (body.isPublic !== undefined) updates.isPublic = bool(body.isPublic, false);
+  if (body.videoUrl !== undefined) updates.videoUrl = str(body.videoUrl, 500) || null;
   if (body.exercises !== undefined) {
     const exercises = normalizeExercises(body.exercises);
     assertOk(exercises.length > 0, 'Add at least one exercise.', 'exercises');
@@ -217,6 +219,7 @@ router.post('/:id/duplicate', requireAuth, async (req, res) => {
     description: existing.description,
     tags: existing.tags || [],
     isPublic: false,
+    videoUrl: existing.videoUrl || null,
     exercises: existing.exercises || [],
     createdAt: now,
     updatedAt: now,

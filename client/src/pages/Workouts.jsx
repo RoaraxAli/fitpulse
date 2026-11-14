@@ -490,6 +490,7 @@ export function WorkoutsPage({ route }) {
   const [routineModal, setRoutineModal] = useState({ open: false, initial: null });
   const [logModal, setLogModal] = useState({ open: false, routine: null });
   const [detail, setDetail] = useState(null);
+  const [videoModal, setVideoModal] = useState({ open: false, routine: null });
 
   const routines = useApi(`/workouts?limit=60&q=${encodeURIComponent(debounced)}&category=${category === 'all' ? '' : category}&scope=${scope}`);
   const logs = useApi(`/workout-logs?limit=50&q=${encodeURIComponent(debounced)}&category=${historyCategory === 'all' ? '' : historyCategory}`);
@@ -639,6 +640,7 @@ export function WorkoutsPage({ route }) {
                     {routine.tags.slice(0, 3).map((tag) => <span key={tag} className="tag">#{tag}</span>)}
                   </div>
                   <div className="routine-card-foot">
+                    <Button variant="secondary" size="sm" icon="play" onClick={() => setVideoModal({ open: true, routine })}>Watch</Button>
                     <Button variant="ghost" size="sm" icon="more" onClick={() => setDetail(routine)}>Details</Button>
                     <Button size="sm" icon="play" onClick={() => setLogModal({ open: true, routine })}>Log</Button>
                   </div>
@@ -779,6 +781,25 @@ export function WorkoutsPage({ route }) {
         }}
         onDelete={deleteRoutine}
       />
+      <Modal
+        open={videoModal.open}
+        onClose={() => setVideoModal({ open: false, routine: null })}
+        size="lg"
+      >
+        {videoModal.routine?.videoUrl ? (
+          <video
+            src={videoModal.routine.videoUrl}
+            controls
+            autoPlay
+            playsInline
+            style={{ width: '100%', borderRadius: 12, background: '#000', display: 'block' }}
+          />
+        ) : (
+          <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)' }}>
+            Demo video coming soon.
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

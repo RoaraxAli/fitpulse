@@ -468,6 +468,7 @@ async function seedDatabase({ reset = false } = {}) {
     tags: routine.tags,
     isPublic: true,
     isTemplate: true,
+    videoUrl: '/videos/workout-demo.mp4',
     exercises: routine.exercises,
     createdAt: new Date(Date.now() - 100 * 86400000),
     updatedAt: new Date(Date.now() - 10 * 86400000),

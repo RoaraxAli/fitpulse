@@ -43,6 +43,7 @@ const workout = (doc) => {
     tags: Array.isArray(doc.tags) ? doc.tags : [],
     isPublic: Boolean(doc.isPublic),
     isTemplate: Boolean(doc.isTemplate),
+    videoUrl: doc.videoUrl || null,
     exercises: (doc.exercises || []).map((ex) => ({
       name: ex.name,
       sets: ex.sets ?? 3,
