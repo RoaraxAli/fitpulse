@@ -71,7 +71,7 @@ export function AuthPage() {
     <div className="auth">
       <section className="auth-hero">
         <div className="auth-hero-inner">
-          <Logo size={44} />
+          <Logo size={36} />
           <div className="auth-hero-copy">
             <span className="eyebrow">Fitness, made measurable</span>
             <h1>
@@ -139,7 +139,7 @@ export function AuthPage() {
       <section className="auth-panel">
         <div className="auth-card">
           <div className="auth-card-head">
-            <Logo size={34} />
+            <Logo size={28} />
             <h2>{mode === 'login' ? 'Welcome back' : 'Create your account'}</h2>
             <p>{mode === 'login' ? 'Pick up where you left off.' : 'Start tracking in under a minute.'}</p>
           </div>
