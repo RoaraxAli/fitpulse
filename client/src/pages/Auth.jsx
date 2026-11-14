@@ -67,11 +67,6 @@ export function AuthPage() {
     }
   };
 
-  const fillDemo = () => {
-    setMode('login');
-    setForm((current) => ({ ...current, identifier: 'alex', password: 'FitPulse123!' }));
-  };
-
   return (
     <div className="auth">
       <section className="auth-hero">
@@ -222,16 +217,6 @@ export function AuthPage() {
               {mode === 'login' ? 'Sign in' : 'Create account'}
             </Button>
           </form>
-
-          <div className="auth-demo">
-            <div>
-              <strong>Just exploring?</strong>
-              <span>Use the demo account with a full 10-week history.</span>
-            </div>
-            <Button variant="secondary" size="sm" onClick={fillDemo}>
-              Fill demo
-            </Button>
-          </div>
 
           <p className="auth-fineprint">By continuing you agree to keep your data honest and your rest days earned.</p>
         </div>
