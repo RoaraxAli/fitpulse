@@ -66,7 +66,6 @@ router.post('/checkout', requireAuth, async (req, res) => {
   if (req.user.coachPro?.active === true) return res.json({ active: true });
   const session = await stripeRequest('/checkout/sessions', {
     mode: 'payment',
-    'payment_method_types[0]': 'card',
     'line_items[0][quantity]': '1',
     'line_items[0][price_data][currency]': 'usd',
     'line_items[0][price_data][unit_amount]': String(PRICE_CENTS),
