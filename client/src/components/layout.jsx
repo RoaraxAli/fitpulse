@@ -274,19 +274,6 @@ export function AppShell({ children, route }) {
           ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <button
-            type="button"
-            className="sidebar-signout"
-            onClick={async () => {
-              await logout();
-              navigate('/dashboard');
-            }}
-          >
-            <Icon name="logout" size={17} />
-            <span>Sign out</span>
-          </button>
-        </div>
       </aside>
 
       <div className="main">
@@ -313,6 +300,18 @@ export function AppShell({ children, route }) {
             <a href={`#/profile/${user.username}`} className="topbar-avatar" aria-label="Your profile">
               <Avatar name={user.name} src={user.avatar} size={36} />
             </a>
+            <button
+              type="button"
+              className="btn btn-icon"
+              aria-label="Sign out"
+              title="Sign out"
+              onClick={async () => {
+                await logout();
+                navigate('/dashboard');
+              }}
+            >
+              <Icon name="logout" size={19} />
+            </button>
           </div>
         </header>
 
