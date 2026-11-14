@@ -365,11 +365,9 @@ svg { display: block; }
   min-width: 180px;
   padding: 6px;
   border-radius: 14px;
-  background: color-mix(in srgb, var(--elevated) 72%, transparent);
-  backdrop-filter: blur(22px) saturate(1.5);
-  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  background: var(--elevated);
   border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   gap: 2px;
