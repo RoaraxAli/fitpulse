@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth, useApi, useDebounced, useToast } from '../state';
-import { navigate, useRoute } from '../router';
+import { BASE, navigate, useRoute } from '../router';
 import { Avatar, Badge, Button, IconButton, Modal } from '../components/ui';
 import { Icon, Logo } from '../icons';
 import { api } from '../api';
@@ -38,9 +38,13 @@ const TITLES = {
 function NavItem({ item, active, badge, onClick }) {
   return (
     <a
-      href={`#${item.path}`}
+      href={`${BASE}${item.path}`}
       className={classNames('nav-item', active && 'is-active')}
-      onClick={onClick}
+      onClick={(event) => {
+        event.preventDefault();
+        navigate(item.path);
+        onClick?.();
+      }}
       aria-current={active ? 'page' : undefined}
     >
       <span className="nav-icon">
@@ -164,7 +168,7 @@ function MoreSheet({ open, onClose, unread }) {
     <Modal open={open} onClose={onClose} title="More" size="sm">
       <div className="sheet-list">
         {items.map((item) => (
-          <a key={item.path} href={`#${item.path}`} className="sheet-item" onClick={onClose}>
+          <a key={item.path} href={`${BASE}${item.path}`} className="sheet-item" onClick={(event) => { event.preventDefault(); onClose(); navigate(item.path); }}>
             <span className="sheet-icon">
               <Icon name={item.icon} size={19} />
             </span>
@@ -272,7 +276,7 @@ export function AppShell({ children, route }) {
       </a>
 
       <aside className="sidebar" aria-label="Main navigation">
-        <a href="#/dashboard" className="sidebar-brand">
+        <a href={`${BASE}/dashboard`} className="sidebar-brand" onClick={(event) => { event.preventDefault(); navigate('/dashboard'); }}>
           <Logo size={38} />
           <span className="brand-tag">Train. Fuel. Evolve.</span>
         </a>
@@ -295,7 +299,7 @@ export function AppShell({ children, route }) {
       <div className="main">
         <header className="topbar">
           <div className="topbar-left">
-            <a href="#/dashboard" className="topbar-logo" aria-label="FitPulse home">
+            <a href={`${BASE}/dashboard`} className="topbar-logo" aria-label="FitPulse home" onClick={(event) => { event.preventDefault(); navigate('/dashboard'); }}>
               <Logo size={30} withText={false} />
             </a>
             <div>
@@ -309,7 +313,7 @@ export function AppShell({ children, route }) {
               <span>Search</span>
               <kbd>⌘K</kbd>
             </button>
-            <a href="#/notifications" className="btn btn-icon" aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`} title="Notifications">
+            <a href={`${BASE}/notifications`} className="btn btn-icon" aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`} title="Notifications" onClick={(event) => { event.preventDefault(); navigate('/notifications'); }}>
               <Icon name="bell" size={19} />
               {unread > 0 && <span className="notif-dot">{unread > 9 ? '9+' : unread}</span>}
             </a>
@@ -325,11 +329,11 @@ export function AppShell({ children, route }) {
               </button>
               {userMenuOpen && (
                 <div className="user-menu-dropdown" role="menu">
-                  <a href={`#/profile/${user.username}`} className="user-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>
+                  <a href={`${BASE}/profile/${user.username}`} className="user-menu-item" role="menuitem" onClick={(event) => { event.preventDefault(); setUserMenuOpen(false); navigate(`/profile/${user.username}`); }}>
                     <Icon name="user" size={16} />
                     <span>Profile</span>
                   </a>
-                  <a href="#/settings" className="user-menu-item" role="menuitem" onClick={() => setUserMenuOpen(false)}>
+                  <a href={`${BASE}/settings`} className="user-menu-item" role="menuitem" onClick={(event) => { event.preventDefault(); setUserMenuOpen(false); navigate('/settings'); }}>
                     <Icon name="settings" size={16} />
                     <span>Settings</span>
                   </a>
@@ -364,7 +368,7 @@ export function AppShell({ children, route }) {
           { path: '/nutrition', label: 'Fuel', icon: 'apple' },
           { path: '/progress', label: 'Progress', icon: 'target' },
         ].map((item) => (
-          <a key={item.path} href={`#${item.path}`} className={classNames('bottom-nav-item', isActive(item.path) && 'is-active')}>
+          <a key={item.path} href={`${BASE}${item.path}`} className={classNames('bottom-nav-item', isActive(item.path) && 'is-active')} onClick={(event) => { event.preventDefault(); navigate(item.path); }}>
             <Icon name={item.icon} size={20} />
             <span>{item.label}</span>
           </a>

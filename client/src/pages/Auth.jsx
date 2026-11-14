@@ -23,14 +23,13 @@ export function AuthPage() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   useEffect(() => {
-    // Google can bounce people back with ?error=… in the hash route.
-    const query = (window.location.hash.split('?')[1] || '');
-    if (!query) return;
-    const message = new URLSearchParams(query).get('error');
+    // Google redirects with query parameters on the clean login URL.
+    const query = new URLSearchParams(window.location.search);
+    const message = query.get('error');
     if (!message) return;
     setMode('login');
     setError(message);
-    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#/login`);
+    navigate('/login', { replace: true });
   }, []);
 
   const update = (key) => (event) => setForm((current) => ({ ...current, [key]: event.target.value }));

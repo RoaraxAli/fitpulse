@@ -73,14 +73,13 @@ export function CoachPage() {
     let cancelled = false;
     (async () => {
       try {
-        const hashQuery = window.location.hash.split('?')[1] || '';
-        const query = new URLSearchParams(hashQuery);
+        const query = new URLSearchParams(window.location.search);
         const sessionId = query.get('checkout_session_id');
         if (sessionId) {
           const verified = await api.post('/billing/verify', { sessionId });
           if (cancelled) return;
           if (!verified.active) toast('Payment is still processing. Refresh in a moment.', 'error');
-          window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#/coach`);
+          navigate('/coach', { replace: true });
         }
         const status = await api.get('/billing/status');
         if (!cancelled) setProStatus(status.active);

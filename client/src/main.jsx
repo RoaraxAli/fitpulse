@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppProviders, useAuth } from './state';
-import { useRoute } from './router';
+import { BASE, navigate, useRoute } from './router';
 import { AppShell } from './components/layout';
 import { AuthPage } from './pages/Auth';
 import { DashboardPage } from './pages/Dashboard';
@@ -30,13 +30,13 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    this.errorHash = window.location.hash;
+    this.errorPath = window.location.pathname + window.location.search;
     console.error('FitPulse UI error', error, info);
   }
 
   componentDidUpdate() {
     // A failed page should not trap the user: navigating away clears the error.
-    if (this.state.error && window.location.hash !== this.errorHash) {
+    if (this.state.error && window.location.pathname + window.location.search !== this.errorPath) {
       this.setState({ error: null });
     }
   }
@@ -104,7 +104,7 @@ function Router() {
             icon="info"
             title="Page not found"
             description="That link does not exist. Head back to your dashboard."
-            action={<Button onClick={() => { window.location.hash = '#/dashboard'; }}>Go to dashboard</Button>}
+            action={<Button onClick={() => navigate('/dashboard')}>Go to dashboard</Button>}
           />
         );
     }
@@ -116,9 +116,9 @@ function Router() {
     return (
       <div className="admin-workspace">
         <header className="admin-workspace-bar">
-          <a href="#/admin" className="admin-workspace-brand"><Logo size={34} /> <strong>FitPulse Admin</strong></a>
+          <a href={`${BASE}/admin`} className="admin-workspace-brand" onClick={(event) => { event.preventDefault(); navigate('/admin'); }}><Logo size={34} /> <strong>FitPulse Admin</strong></a>
           <div className="admin-workspace-actions">
-            <Button variant="secondary" icon="chevronLeft" onClick={() => { window.location.hash = '#/dashboard'; }}>Back to FitPulse</Button>
+            <Button variant="secondary" icon="chevronLeft" onClick={() => navigate('/dashboard')}>Back to FitPulse</Button>
             <Button variant="ghost" icon="logout" onClick={async () => { await logout(); }}>Log out</Button>
           </div>
         </header>

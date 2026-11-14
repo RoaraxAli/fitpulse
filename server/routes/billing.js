@@ -74,8 +74,8 @@ router.post('/checkout', requireAuth, async (req, res) => {
     customer_email: req.user.email,
     client_reference_id: String(req.user._id),
     'metadata[userId]': String(req.user._id),
-    success_url: `${config.appBaseUrl}/#/coach?checkout_session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${config.appBaseUrl}/#/coach?checkout=cancelled`,
+    success_url: `${config.appBaseUrl}/coach?checkout_session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${config.appBaseUrl}/coach?checkout=cancelled`,
   });
   res.json({ url: session.url });
 });

@@ -199,7 +199,7 @@ router.get('/start', (req, res) => {
 
 router.get('/callback', async (req, res) => {
   const fail = (message) => {
-    const url = `${config.appBaseUrl}/#/login?error=${encodeURIComponent(message)}`;
+    const url = `${config.appBaseUrl}/login?error=${encodeURIComponent(message)}`;
     res.setHeader('Cache-Control', 'no-store');
     return res.redirect(url);
   };
@@ -235,7 +235,7 @@ router.get('/callback', async (req, res) => {
     if (created) logger.info(`Created account ${user.username} from Google sign-in`);
     res.setHeader('Set-Cookie', authCookie(signToken(user)));
     res.setHeader('Cache-Control', 'no-store');
-    return res.redirect(`${config.appBaseUrl}/#${state.next}`);
+    return res.redirect(`${config.appBaseUrl}${state.next}`);
   } catch (error) {
     logger.error('Google sign-in failed:', error);
     return fail(error.message && error.message.length < 120 ? error.message : 'Google sign-in failed. Please try again.');
