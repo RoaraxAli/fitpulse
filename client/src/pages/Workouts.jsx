@@ -425,7 +425,7 @@ function LogModal({ open, initialRoutine, onClose, onSaved }) {
   );
 }
 
-function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate }) {
+function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate, onWatch }) {
   if (!routine) return null;
   return (
     <Modal
@@ -470,7 +470,7 @@ function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate 
                 <td className="mono">{exercise.weight ? `${exercise.weight} kg` : '—'}</td>
                 <td className="mono">{exercise.restSeconds}s</td>
                 <td>
-                  <Button variant="secondary" size="sm" icon="play" onClick={() => setVideoModal({ open: true, routine: { name: exercise.name, videoUrl: exercise.videoUrl } })}>Watch</Button>
+                  <Button variant="secondary" size="sm" icon="play" onClick={() => onWatch({ name: exercise.name, videoUrl: exercise.videoUrl })}>Watch</Button>
                 </td>
               </tr>
             ))}
@@ -782,6 +782,7 @@ export function WorkoutsPage({ route }) {
           setDetail(null);
         }}
         onDelete={deleteRoutine}
+        onWatch={(r) => setVideoModal({ open: true, routine: r })}
       />
       <Modal
         open={videoModal.open}
