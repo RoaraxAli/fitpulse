@@ -113,11 +113,11 @@ const ROUTINES = [
     description: 'Heavy horizontal pressing followed by shoulder and triceps volume.',
     tags: ['push', 'upper'],
     exercises: [
-      { name: 'Barbell Bench Press', sets: 4, reps: 8, weight: 80, restSeconds: 120, notes: 'Leave one rep in the tank', videoUrl: '/videos/bench-press.mp4' },
-      { name: 'Incline Dumbbell Press', sets: 3, reps: 10, weight: 28, restSeconds: 90, notes: '', videoUrl: '/videos/incline-dumbbell-press.mp4' },
-      { name: 'Overhead Press', sets: 3, reps: 8, weight: 45, restSeconds: 120, notes: 'Brace hard', videoUrl: '/videos/overhead-press.mp4' },
-      { name: 'Cable Fly', sets: 3, reps: 12, weight: 15, restSeconds: 60, notes: 'Squeeze at the top', videoUrl: '/videos/cable-fly.mp4' },
-      { name: 'Triceps Pushdown', sets: 3, reps: 12, weight: 25, restSeconds: 60, notes: '', videoUrl: '/videos/triceps-pushdown.mp4' },
+      { name: 'Barbell Bench Press', sets: 4, reps: 8, weight: 80, restSeconds: 120, notes: 'Leave one rep in the tank', videoUrl: 'http://84.12.151.204/videos/bench-press.mp4' },
+      { name: 'Incline Dumbbell Press', sets: 3, reps: 10, weight: 28, restSeconds: 90, notes: '', videoUrl: 'http://84.12.151.204/videos/incline-dumbbell-press.mp4' },
+      { name: 'Overhead Press', sets: 3, reps: 8, weight: 45, restSeconds: 120, notes: 'Brace hard', videoUrl: 'http://84.12.151.204/videos/overhead-press.mp4' },
+      { name: 'Cable Fly', sets: 3, reps: 12, weight: 15, restSeconds: 60, notes: 'Squeeze at the top', videoUrl: 'http://84.12.151.204/videos/cable-fly.mp4' },
+      { name: 'Triceps Pushdown', sets: 3, reps: 12, weight: 25, restSeconds: 60, notes: '', videoUrl: 'http://84.12.151.204/videos/triceps-pushdown.mp4' },
     ],
   },
   {
