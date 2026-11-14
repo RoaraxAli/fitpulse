@@ -365,7 +365,7 @@ svg { display: block; }
   min-width: 180px;
   padding: 6px;
   border-radius: 14px;
-  background: var(--elevated);
+  background: #1a2420;
   border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-lg);
   display: flex;
@@ -374,6 +374,7 @@ svg { display: block; }
   z-index: 60;
   animation: fadeIn 0.16s ease;
 }
+html[data-theme='light'] .user-menu-dropdown { background: #ffffff; }
 .user-menu-item {
   display: flex;
   align-items: center;
