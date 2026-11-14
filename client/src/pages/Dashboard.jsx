@@ -83,7 +83,7 @@ export function DashboardPage() {
   }));
 
   return (
-    <div className="page-stack">
+    <div className="page-stack dashboard-view">
       <PageHeader
         eyebrow={`${greeting()}, ${data.greetingName}`}
         title="Your day at a glance"
@@ -151,7 +151,7 @@ export function DashboardPage() {
             icon="chart"
             actions={<Badge tone="accent">{fmtDuration(weekStats.minutes)}</Badge>}
           />
-          <BarChart data={activityData} height={200} unit=" min" color="var(--accent)" emptyLabel="Log a workout to see your week" />
+          <BarChart data={activityData} height={150} unit=" min" color="var(--accent)" emptyLabel="Log a workout to see your week" />
           <div className="card-foot-split">
             <div>
               <span className="mini-label">Volume lifted</span>
@@ -181,8 +181,8 @@ export function DashboardPage() {
           <div className="fuel-body">
             <Donut
               segments={macroSegments}
-              size={150}
-              stroke={17}
+              size={120}
+              stroke={14}
               centerLabel={fmtNumber(today.totals.calories)}
               centerSub="kcal"
             />
@@ -324,9 +324,9 @@ export function DashboardPage() {
         <Card>
           <CardHead title="Calories this week" icon="flame" actions={<Badge tone="neutral">7 days</Badge>} />
           <div className="calorie-spark">
-            <Sparkline values={calorieData.map((item) => item.value)} height={54} />
+            <Sparkline values={calorieData.map((item) => item.value)} height={40} />
           </div>
-          <BarChart data={calorieData} height={150} color="var(--orange)" unit=" kcal" valueLabels={false} />
+          <BarChart data={calorieData} height={110} color="var(--orange)" unit=" kcal" valueLabels={false} />
         </Card>
 
         <Card className="achievement-card">

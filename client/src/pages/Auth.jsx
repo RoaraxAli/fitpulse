@@ -212,8 +212,8 @@ export function AuthPage() {
                   autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                   required
                 />
-                <button type="button" className="input-action" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
-                  {showPassword ? 'Hide' : 'Show'}
+                <button type="button" className="input-action" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Hide password' : 'Show password'} title={showPassword ? 'Hide password' : 'Show password'}>
+                  <Icon name={showPassword ? 'eye-off' : 'eye'} size={18} />
                 </button>
               </div>
             </Field>

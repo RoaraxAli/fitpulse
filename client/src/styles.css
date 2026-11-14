@@ -689,20 +689,27 @@ svg { display: block; }
 .select-sm { width: auto; padding: 7px 32px 7px 10px; font-size: 12.5px; }
 
 .input-with-action { position: relative; display: flex; align-items: center; }
-.input-with-action .input { padding-right: 62px; }
+.input-with-action .input { padding-right: 56px; }
 .input-action {
   position: absolute;
-  right: 6px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   border: none;
   background: transparent;
   color: var(--accent);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 8px;
-  border-radius: 7px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  padding: 0;
   cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease;
 }
-.input-action:hover { background: var(--surface-3); }
+.input-action svg { width: 18px; height: 18px; }
+.input-action:hover { background: var(--surface-3); color: var(--ink); }
 
 .form-stack { display: flex; flex-direction: column; gap: 16px; }
 .form-grid { display: grid; gap: 14px; }
@@ -1576,6 +1583,99 @@ html[data-theme='light'] .showcase-card { background: rgba(255, 255, 255, 0.8); 
 .achievement-hero strong { font-size: 17px; display: block; }
 .achievement-hero p { font-size: 12px; color: var(--muted); }
 .achievement-progress { margin-bottom: 14px; }
+
+/* ==========================================================================
+   Dashboard — single screen, no scrolling
+   ========================================================================== */
+.page-stack.dashboard-view {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+.page-stack.dashboard-view .page-header {
+  margin-bottom: 6px;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.page-stack.dashboard-view .page-title { font-size: 20px; }
+.page-stack.dashboard-view .page-sub { font-size: 12.5px; }
+.page-stack.dashboard-view .quick-actions { gap: 6px; }
+.page-stack.dashboard-view .quick-actions .btn {
+  padding: 7px 12px;
+  font-size: 12.5px;
+  gap: 6px;
+}
+.page-stack.dashboard-view .stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.page-stack.dashboard-view .stat {
+  padding: 13px 15px;
+  gap: 5px;
+}
+.page-stack.dashboard-view .stat-value { font-size: 21px; }
+.page-stack.dashboard-view .stat-sub { font-size: 11px; }
+.page-stack.dashboard-view .stat-progress { height: 5px; margin-top: 6px; }
+.page-stack.dashboard-view .stat-change { font-size: 10.5px; padding: 1px 6px; }
+.page-stack.dashboard-view .grid { gap: 12px; }
+.page-stack.dashboard-view .grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.page-stack.dashboard-view .grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.page-stack.dashboard-view .card { padding: 15px; }
+.page-stack.dashboard-view .card-head {
+  margin-bottom: 12px;
+  gap: 10px;
+}
+.page-stack.dashboard-view .card-title { font-size: 14.5px; }
+.page-stack.dashboard-view .card-sub { font-size: 11.5px; }
+.page-stack.dashboard-view .card-foot-split {
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 10px;
+}
+.page-stack.dashboard-view .card-foot-split > div { gap: 2px; }
+.page-stack.dashboard-view .card-foot-split strong { font-size: 14px; }
+.page-stack.dashboard-view .macro-bars { gap: 9px; }
+.page-stack.dashboard-view .macro-row-head { font-size: 11.5px; }
+.page-stack.dashboard-view .workout-list li { padding: 8px 0; gap: 10px; }
+.page-stack.dashboard-view .workout-list-copy strong { font-size: 13px; }
+.page-stack.dashboard-view .workout-list-copy span { font-size: 11px; }
+.page-stack.dashboard-view .goal-mini-list { gap: 10px; }
+.page-stack.dashboard-view .meal-mini-list li { padding: 6px 0; }
+.page-stack.dashboard-view .achievement-hero { margin: 4px 0 10px; gap: 11px; }
+.page-stack.dashboard-view .achievement-badge { width: 44px; height: 44px; }
+.page-stack.dashboard-view .achievement-hero strong { font-size: 15px; }
+
+@media (max-width: 1180px) {
+  .page-stack.dashboard-view .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page-stack.dashboard-view .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page-stack.dashboard-view .grid.three .span-two { grid-column: span 2; }
+}
+@media (max-width: 760px) {
+  .page-stack.dashboard-view .grid.two,
+  .page-stack.dashboard-view .grid.three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .page-stack.dashboard-view .grid .span-two,
+  .page-stack.dashboard-view .grid.three .span-two { grid-column: auto; }
+  .page-stack.dashboard-view .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .page-stack.dashboard-view .stat { padding: 12px; }
+  .page-stack.dashboard-view .stat-value { font-size: 20px; }
+}
+@media (max-width: 420px) {
+  .page-stack.dashboard-view .stats-grid { grid-template-columns: minmax(0, 1fr); }
+  .page-stack.dashboard-view .card { padding: 14px; }
+}
 
 /* ==========================================================================
    Workouts
