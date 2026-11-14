@@ -8,6 +8,26 @@ const { str, int, clamp, pagination, paginated } = require('../utils');
 const router = express.Router();
 router.use(requireAuth, requireAdmin);
 
+// Site-wide brand palette
+router.get('/appearance', async (req, res) => {
+  const settings = await getDb().collection('settings').findOne({ _id: 'brandColors' });
+  res.json({ colors: settings?.colors || { primary: '#faf7f0', secondary: '#2457d6', text: '#222a38' } });
+});
+
+router.put('/appearance', async (req, res) => {
+  const colors = req.body?.colors || {};
+  const valid = (value) => typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value);
+  if (!['primary', 'secondary', 'text'].every((key) => valid(colors[key]))) {
+    return res.status(400).json({ error: { code: 'invalid_colors', message: 'Provide valid hex values for all three colors.' } });
+  }
+  await getDb().collection('settings').updateOne(
+    { _id: 'brandColors' },
+    { $set: { colors: { primary: colors.primary, secondary: colors.secondary, text: colors.text }, updatedAt: new Date() } },
+    { upsert: true }
+  );
+  res.json({ colors });
+});
+
 // Overview stats
 router.get('/stats', async (req, res) => {
   const db = getDb();

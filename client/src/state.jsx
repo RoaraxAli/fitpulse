@@ -74,8 +74,12 @@ function applyTheme(theme) {
       : theme || 'dark';
   document.documentElement.dataset.theme = resolved;
   document.documentElement.style.colorScheme = resolved;
+  const brandColors = { primary: '#faf7f0', secondary: '#2457d6', text: '#222a38', ...(window.__FITPULSE_BRAND_COLORS__ || {}) };
+  document.documentElement.style.setProperty('--primary', brandColors.primary);
+  document.documentElement.style.setProperty('--secondary', brandColors.secondary);
+  document.documentElement.style.setProperty('--text-color', brandColors.text);
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', resolved === 'light' ? '#f4f7f2' : '#0b0f0d');
+  if (meta) meta.setAttribute('content', brandColors.primary);
 }
 
 function AuthProvider({ children }) {
@@ -104,7 +108,7 @@ function AuthProvider({ children }) {
   }, [refresh]);
 
   useEffect(() => {
-    applyTheme(user?.theme || localStorage.getItem('fp-theme') || 'dark');
+    applyTheme(user?.theme || localStorage.getItem('fp-theme') || 'light');
     localStorage.setItem('fp-theme', user?.theme || localStorage.getItem('fp-theme') || 'dark');
   }, [user?.theme]);
 

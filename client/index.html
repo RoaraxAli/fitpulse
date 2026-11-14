@@ -12,6 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <script>
+      window.__FITPULSE_BRAND_COLORS__ = { primary: '#faf7f0', secondary: '#2457d6', text: '#222a38' };
+      fetch('/api/admin/appearance', { credentials: 'include' }).then((r) => r.ok ? r.json() : null).then((data) => { if (data?.colors) { window.__FITPULSE_BRAND_COLORS__ = data.colors; for (const [key, variable] of Object.entries({ primary: '--primary', secondary: '--secondary', text: '--text-color' })) document.documentElement.style.setProperty(variable, data.colors[key]); } }).catch(() => {});
+    </script>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>
   </body>

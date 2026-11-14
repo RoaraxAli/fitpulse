@@ -9,6 +9,7 @@ import { classNames } from '../utils';
 
 const TABS = [
   { value: 'overview', label: 'Overview', icon: 'home' },
+  { value: 'appearance', label: 'Appearance', icon: 'settings' },
   { value: 'analytics', label: 'Analytics', icon: 'chart' },
   { value: 'users', label: 'Users', icon: 'users' },
   { value: 'workouts', label: 'Workouts', icon: 'dumbbell' },
@@ -64,6 +65,7 @@ export function AdminPage() {
           subtitle="Manage users, content and activity across FitPulse."
         />
       {tab === 'overview' && <OverviewTab />}
+      {tab === 'appearance' && <AppearanceTab toast={toast} />}
       {tab === 'analytics' && <AnalyticsTab />}
       {tab === 'users' && <UsersTab query={query} setQuery={setQuery} toast={toast} />}
       {tab === 'workouts' && <WorkoutsTab toast={toast} />}
@@ -79,6 +81,41 @@ export function AdminPage() {
       {tab === 'broadcast' && <BroadcastTab toast={toast} />}
       </section>
     </div>
+  );
+}
+
+function AppearanceTab({ toast }) {
+  const defaults = { primary: '#faf7f0', secondary: '#2457d6', text: '#222a38' };
+  const [colors, setColors] = useState(defaults);
+  useEffect(() => {
+    api.get('/admin/appearance').then(({ colors: saved }) => { if (saved) setColors({ ...defaults, ...saved }); }).catch((error) => toast(error.message, 'error'));
+  }, []);
+  const save = async () => {
+    try {
+      const result = await api.put('/admin/appearance', { colors });
+      window.__FITPULSE_BRAND_COLORS__ = result.colors;
+      Object.entries({ primary: '--primary', secondary: '--secondary', text: '--text-color' }).forEach(([key, variable]) => document.documentElement.style.setProperty(variable, result.colors[key]));
+      toast('Site-wide brand colors saved.');
+    } catch (error) { toast(error.message, 'error'); }
+  };
+  const reset = () => {
+    setColors(defaults);
+    api.put('/admin/appearance', { colors: defaults }).then(({ colors: saved }) => {
+      window.__FITPULSE_BRAND_COLORS__ = saved;
+      Object.entries({ primary: '--primary', secondary: '--secondary', text: '--text-color' }).forEach(([key, variable]) => document.documentElement.style.setProperty(variable, saved[key]));
+      toast('Default brand colors restored.');
+    }).catch((error) => toast(error.message, 'error'));
+  };
+  return (
+    <Card>
+      <CardHead title="Brand colors" subtitle="Set the three colors used across FitPulse on this browser." icon="settings" />
+      <div className="form-grid three">
+        {[["primary", "Primary / background"], ["secondary", "Secondary / accent"], ["text", "Text"]].map(([key, label]) => (
+          <label key={key} className="field"><span className="field-label">{label}</span><input className="input" type="color" value={colors[key]} onChange={(event) => setColors((current) => ({ ...current, [key]: event.target.value }))} /></label>
+        ))}
+      </div>
+      <div className="form-actions"><Button onClick={save}>Save colors</Button><Button variant="secondary" onClick={reset}>Reset defaults</Button></div>
+    </Card>
   );
 }
 
