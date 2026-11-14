@@ -794,6 +794,7 @@ export function WorkoutsPage({ route }) {
             src={videoModal.routine.videoUrl}
             controls
             autoPlay
+            muted
             playsInline
             style={{ width: '100%', borderRadius: 12, background: '#000', display: 'block' }}
           />
