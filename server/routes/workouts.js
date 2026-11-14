@@ -33,6 +33,7 @@ function normalizeExercises(input) {
     .slice(0, 40)
     .map((exercise) => ({
       name: str(exercise?.name, 80),
+      videoUrl: str(exercise?.videoUrl, 500) || null,
       sets: clamp(int(exercise?.sets, 3), 1, 50),
       reps: clamp(int(exercise?.reps, 10), 0, 1000),
       weight: clamp(num(exercise?.weight, 0), 0, 2000),

@@ -139,6 +139,7 @@ GUIDELINES
 // GET /api/chat — load history
 // ---------------------------------------------------------------------------
 router.get('/', requireAuth, async (req, res) => {
+  if (req.user.coachPro?.active !== true) return res.status(402).json({ error: { code: 'coach_pro_required', message: 'Unlock Coach Pro to use the AI Coach.' } });
   const docs = await loadHistory(req.user._id);
   res.json({
     messages: docs.map((d) => ({ role: d.role, content: d.content, createdAt: d.createdAt })),
@@ -149,6 +150,7 @@ router.get('/', requireAuth, async (req, res) => {
 // DELETE /api/chat — clear history
 // ---------------------------------------------------------------------------
 router.delete('/', requireAuth, async (req, res) => {
+  if (req.user.coachPro?.active !== true) return res.status(402).json({ error: { code: 'coach_pro_required', message: 'Unlock Coach Pro to use the AI Coach.' } });
   await historyCollection().deleteMany({ userId: req.user._id });
   res.json({ ok: true });
 });
@@ -157,6 +159,7 @@ router.delete('/', requireAuth, async (req, res) => {
 // POST /api/chat — send a message, stream reply
 // ---------------------------------------------------------------------------
 router.post('/', requireAuth, async (req, res) => {
+  if (req.user.coachPro?.active !== true) return res.status(402).json({ error: { code: 'coach_pro_required', message: 'Unlock Coach Pro to use the AI Coach.' } });
   const apiKey = config.geminiApiKey;
   if (!apiKey) {
     res.status(503).json({ error: { code: 'chat_unavailable', message: 'Chat is not configured.' } });

@@ -3,7 +3,7 @@ import { useAuth, useToast } from '../state';
 import { navigate } from '../router';
 import { Avatar, Button, Card, CardHead, Empty, PageHeader, Skeleton } from '../components/ui';
 import { Icon } from '../icons';
-import { API_BASE } from '../api';
+import { API_BASE, api } from '../api';
 import { classNames } from '../utils';
 
 const SUGGESTIONS = [
@@ -59,6 +59,8 @@ export function CoachPage() {
   const [input, setInput] = useState('');
   const [streaming, setStreaming] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [proStatus, setProStatus] = useState(null);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const listRef = useRef(null);
   const abortRef = useRef(null);
 
@@ -71,16 +73,28 @@ export function CoachPage() {
     let cancelled = false;
     (async () => {
       try {
+        const hashQuery = window.location.hash.split('?')[1] || '';
+        const query = new URLSearchParams(hashQuery);
+        const sessionId = query.get('checkout_session_id');
+        if (sessionId) {
+          const verified = await api.post('/billing/verify', { sessionId });
+          if (cancelled) return;
+          if (!verified.active) toast('Payment is still processing. Refresh in a moment.', 'error');
+          window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#/coach`);
+        }
+        const status = await api.get('/billing/status');
+        if (!cancelled) setProStatus(status.active);
+        if (!status.active) return;
         const data = await fetch(`${API_BASE}/chat`, { credentials: 'same-origin' }).then((r) => r.json());
         if (!cancelled) setMessages(data.messages || []);
       } catch {
-        // ignore
+        if (!cancelled) setProStatus(false);
       } finally {
         if (!cancelled) setLoadingHistory(false);
       }
     })();
     return () => { cancelled = true; };
-  }, []);
+  }, [toast]);
 
   useEffect(() => { scrollToBottom(); }, [messages, streaming]);
 
@@ -163,6 +177,34 @@ export function CoachPage() {
       toast('Could not clear history.', 'error');
     }
   };
+
+  const startCheckout = async () => {
+    setCheckoutLoading(true);
+    try {
+      const result = await api.post('/billing/checkout', {});
+      if (result.url) window.location.assign(result.url);
+      else if (result.active) setProStatus(true);
+    } catch (error) {
+      toast(error.message || 'Could not start checkout.', 'error');
+      setCheckoutLoading(false);
+    }
+  };
+
+  if (proStatus !== true) {
+    return (
+      <div className="page-stack">
+        <PageHeader eyebrow="AI Coach" title="Your personal trainer, on demand" subtitle="Unlock personalized AI coaching for your training and nutrition." />
+        <Card className="coach-empty">
+          <span className="empty-icon"><Icon name="sparkles" size={26} /></span>
+          <h3>{loadingHistory ? 'Checking Coach Pro access…' : 'Unlock Coach Pro'}</h3>
+          <p>A one-time $5 payment gives this account access to the AI Coach.</p>
+          <Button icon="sparkles" onClick={startCheckout} disabled={loadingHistory || checkoutLoading}>
+            {checkoutLoading ? 'Opening secure checkout…' : 'Unlock for $5'}
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="page-stack">

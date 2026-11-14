@@ -46,6 +46,7 @@ const workout = (doc) => {
     videoUrl: doc.videoUrl || null,
     exercises: (doc.exercises || []).map((ex) => ({
       name: ex.name,
+      videoUrl: ex.videoUrl || null,
       sets: ex.sets ?? 3,
       reps: ex.reps ?? 10,
       weight: ex.weight ?? 0,

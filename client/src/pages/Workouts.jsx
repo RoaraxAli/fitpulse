@@ -459,7 +459,7 @@ function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate 
       <div className="table-wrap">
         <table className="table">
           <thead>
-            <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th><th>Rest</th></tr>
+            <tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th><th>Rest</th><th>Video</th></tr>
           </thead>
           <tbody>
             {routine.exercises.map((exercise, index) => (
@@ -469,6 +469,9 @@ function RoutineDetail({ routine, onClose, onEdit, onLog, onDelete, onDuplicate 
                 <td className="mono">{exercise.reps}</td>
                 <td className="mono">{exercise.weight ? `${exercise.weight} kg` : '—'}</td>
                 <td className="mono">{exercise.restSeconds}s</td>
+                <td>
+                  <Button variant="secondary" size="sm" icon="play" onClick={() => setVideoModal({ open: true, routine: { name: exercise.name, videoUrl: exercise.videoUrl } })}>Watch</Button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -640,7 +643,6 @@ export function WorkoutsPage({ route }) {
                     {routine.tags.slice(0, 3).map((tag) => <span key={tag} className="tag">#{tag}</span>)}
                   </div>
                   <div className="routine-card-foot">
-                    <Button variant="secondary" size="sm" icon="play" onClick={() => setVideoModal({ open: true, routine })}>Watch</Button>
                     <Button variant="ghost" size="sm" icon="more" onClick={() => setDetail(routine)}>Details</Button>
                     <Button size="sm" icon="play" onClick={() => setLogModal({ open: true, routine })}>Log</Button>
                   </div>

@@ -23,6 +23,7 @@ const { router: reportsRouter } = require('./routes/reports');
 const { router: accountRouter } = require('./routes/account');
 const { router: chatRouter } = require('./routes/chat');
 const { router: adminRouter } = require('./routes/admin');
+const { router: billingRouter, webhook: stripeWebhook } = require('./routes/billing');
 
 function createApp() {
   const app = express();
@@ -30,6 +31,7 @@ function createApp() {
   app.set('trust proxy', 1);
 
   app.use(securityHeaders);
+  app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
   app.use(express.json({ limit: config.maxBody }));
   app.use(express.urlencoded({ extended: false, limit: '1mb' }));
   app.use(requestLogger);
@@ -37,6 +39,7 @@ function createApp() {
   app.use('/api/auth/login', rateLimit({ windowMs: 60_000, max: 15, message: 'Too many sign-in attempts. Try again in a minute.' }));
   app.use('/api/auth/register', rateLimit({ windowMs: 60_000, max: 10, message: 'Too many sign-up attempts. Try again in a minute.' }));
   app.use('/api/chat', rateLimit({ windowMs: 60_000, max: 30, message: 'Slow down — too many messages. Try again in a minute.' }));
+  app.use('/api/billing', rateLimit({ windowMs: 60_000, max: 20, message: 'Too many payment requests. Try again in a minute.' }));
   app.use('/api', rateLimit({ windowMs: 60_000, max: 900 }));
 
   app.use(attachUser);
@@ -70,6 +73,7 @@ function createApp() {
   app.use('/api/reports', reportsRouter);
   app.use('/api/chat', chatRouter);
   app.use('/api/admin', adminRouter);
+  app.use('/api/billing', billingRouter);
   app.use('/api', socialRouter);
   app.use('/api', accountRouter);
   app.use('/api', notFound);
