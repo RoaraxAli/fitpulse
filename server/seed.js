@@ -126,11 +126,11 @@ const ROUTINES = [
     description: 'Posterior chain strength with pulling volume.',
     tags: ['pull', 'upper'],
     exercises: [
-      { name: 'Deadlift', sets: 4, reps: 5, weight: 120, restSeconds: 180, notes: 'Reset each rep' },
-      { name: 'Pull-Up', sets: 4, reps: 8, weight: 0, restSeconds: 90, notes: 'Bodyweight' },
-      { name: 'Barbell Row', sets: 4, reps: 10, weight: 60, restSeconds: 90, notes: '' },
-      { name: 'Face Pull', sets: 3, reps: 15, weight: 20, restSeconds: 60, notes: 'Slow eccentric' },
-      { name: 'Hammer Curl', sets: 3, reps: 12, weight: 14, restSeconds: 60, notes: '' },
+      { name: 'Deadlift', sets: 4, reps: 5, weight: 120, restSeconds: 180, notes: 'Reset each rep', videoUrl: '/videos/deadlift.mp4' },
+      { name: 'Pull-Up', sets: 4, reps: 8, weight: 0, restSeconds: 90, notes: 'Bodyweight', videoUrl: '/videos/pull-up.mp4' },
+      { name: 'Barbell Row', sets: 4, reps: 10, weight: 60, restSeconds: 90, notes: '', videoUrl: '/videos/barbell-row.mp4' },
+      { name: 'Face Pull', sets: 3, reps: 15, weight: 20, restSeconds: 60, notes: 'Slow eccentric', videoUrl: '/videos/face-pull.mp4' },
+      { name: 'Hammer Curl', sets: 3, reps: 12, weight: 14, restSeconds: 60, notes: '', videoUrl: '/videos/hammer-curl.mp4' },
     ],
   },
   {
