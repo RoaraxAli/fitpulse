@@ -275,26 +275,6 @@ export function AppShell({ children, route }) {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="sidebar-prompt">
-            <span className="sidebar-prompt-icon">
-              <Icon name="sparkles" size={18} />
-            </span>
-            <div>
-              <strong>Ready to train?</strong>
-              <span>Log today’s session in seconds.</span>
-            </div>
-            <Button size="sm" variant="ghost" icon="plus" onClick={() => navigate('/workouts?action=log')}>
-              Log
-            </Button>
-          </div>
-          <a href={`#/profile/${user.username}`} className="sidebar-user">
-            <Avatar name={user.name} src={user.avatar} size={38} />
-            <span className="sidebar-user-copy">
-              <strong>{user.name}</strong>
-              <small>@{user.username}</small>
-            </span>
-            <Icon name="chevronRight" size={16} />
-          </a>
           <button
             type="button"
             className="sidebar-signout"
