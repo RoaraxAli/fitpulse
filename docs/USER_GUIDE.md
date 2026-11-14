@@ -76,19 +76,40 @@ An administrator sees an **Admin panel** with a workspace sidebar. It provides o
 - **Page does not respond:** refresh once; if it continues, sign out/in and contact the application administrator with the page and approximate time (never send your password).
 - **Admin panel unavailable:** the signed-in account may not have the admin role. Do not attempt to bypass authorization.
 
-## 6. Screenshot record
-Screenshots should be captured from the live site while signed in with the appropriate authorized demo account. Insert the following images in a final submission; crop/redact email addresses, identifiers and any private information before sharing.
+## 6. Screenshots
+The following screenshots were captured from the live FitPulse website at desktop size (1440 × 1000) using the seeded demo account. Screens show demo information; redact identifiers before sharing outside the project.
 
-| Figure | Screen to capture | Suggested caption |
-|---|---|---|
-| 1 | Sign-in page before entering credentials | FitPulse sign-in and account options |
-| 2 | Dashboard after signing in as demo user | Dashboard summary and navigation |
-| 3 | Workouts routine list/details | Browse a routine and its exercise plan |
-| 4 | Workout log entry/history | Recording and reviewing a session |
-| 5 | Nutrition daily view | Meals and daily macro totals |
-| 6 | Progress/goal view | Measurements and goal tracking |
-| 7 | Analytics view | Activity trends over a selected range |
-| 8 | Community feed | Posts and community interactions |
-| 9 | Settings/profile | User preferences and account settings |
+### 6.1 Sign in
+![FitPulse sign-in page](screenshots/01-sign-in.png)
 
-*Screenshots are intentionally not fabricated or represented as captured: this environment did not expose an interactive browser/screenshot facility during document generation. Add actual screenshots before treating this as a screenshot-complete submission.*
+### 6.2 Dashboard
+![Signed-in dashboard](screenshots/02-dashboard.png)
+
+### 6.3 Workouts
+![Workout routines and tracking](screenshots/03-workouts.png)
+
+### 6.4 Nutrition
+![Nutrition tracking](screenshots/04-nutrition.png)
+
+### 6.5 Progress
+![Progress and goals](screenshots/05-progress.png)
+
+### 6.6 Analytics
+![Fitness analytics](screenshots/06-analytics.png)
+
+### 6.7 Community
+The screenshot below shows the loaded feed with seeded sample posts. Feed loading can take a few seconds on first visit.
+
+![Community feed](screenshots/07-community.png)
+
+### 6.8 Notifications
+![Notifications](screenshots/08-notifications.png)
+
+### 6.9 Settings
+![User settings](screenshots/09-settings.png)
+
+### 6.10 Admin panel (reference for authorized admins)
+![Admin overview](screenshots/10-admin-overview.png)
+
+Screenshots show the main feature views. Workout history and records are available from the tabs visible in the Workouts screenshot; select those tabs in the live app to view the corresponding records.
+

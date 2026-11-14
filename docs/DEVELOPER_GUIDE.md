@@ -96,16 +96,47 @@ Tests use `node:test` and a throwaway Mongo database (see `README.md` for enviro
 ## 10. Deployment notes
 Vercel integration is defined by `vercel.json` and `api/index.js`. Set deployment environment variables in the hosting provider, build the Vite client, configure Atlas network/database access and ensure OAuth callback URLs exactly match. The README notes that filesystem avatar uploads are ephemeral in serverless environments; use persistent object storage/GridFS for production. Back up MongoDB and verify restore procedures.
 
-## 11. Admin screenshot checklist
-Capture screenshots only while authenticated as an authorized admin on the live site, and redact emails, IDs or private user data before distribution.
+## 11. Admin screenshots
+The live site was captured while authenticated as the authorized seeded Alex administrator. Screenshots are in `docs/screenshots/`; redact user details before distribution.
 
-| Figure | Admin view | Suggested caption |
-|---|---|---|
-| A1 | Admin overview | Administration metrics |
-| A2 | Admin analytics | Activity trends and range selector |
-| A3 | Users | User table/search and role controls (redacted) |
-| A4 | Workout logs or nutrition | Cross-account activity management (redacted) |
-| A5 | Support tickets | Ticket status workflow |
-| A6 | Broadcast | Announcement composer; do not expose/send a test announcement unintentionally |
+- Overview: `screenshots/10-admin-overview.png`
+- Analytics: `screenshots/11-admin-analytics.png`
+- User administration: `screenshots/12-admin-users.png`
+- Workouts: `screenshots/13-admin-workouts.png`
+- Workout logs: `screenshots/14-admin-workout-logs.png`
+- Nutrition: `screenshots/15-admin-nutrition.png`
+- Posts and replies: `screenshots/16-admin-posts.png`, `screenshots/17-admin-replies.png`
+- Goals and measurements: `screenshots/18-admin-goals.png`, `screenshots/19-admin-measurements.png`
+- Food and exercise catalogs: `screenshots/20-admin-foods.png`, `screenshots/21-admin-exercises.png`
+- Support tickets: `screenshots/22-admin-tickets.png`
+- Broadcast composer: `screenshots/23-admin-broadcast.png` (captured without sending an announcement).
 
-*Screenshots are not fabricated. An interactive browser/screenshot tool was unavailable in this run, so add real authorized captures before submission.*
+### Admin panel screenshots
+
+#### Overview
+![Admin overview](screenshots/10-admin-overview.png)
+
+#### Analytics
+![Admin analytics](screenshots/11-admin-analytics.png)
+
+#### Users
+![Admin users](screenshots/12-admin-users.png)
+
+#### Workouts and workout logs
+![Admin workouts](screenshots/13-admin-workouts.png)
+![Admin workout logs](screenshots/14-admin-workout-logs.png)
+
+#### Nutrition, posts and replies
+![Admin nutrition](screenshots/15-admin-nutrition.png)
+![Admin posts](screenshots/16-admin-posts.png)
+![Admin replies](screenshots/17-admin-replies.png)
+
+#### Goals, measurements and catalogs
+![Admin goals](screenshots/18-admin-goals.png)
+![Admin measurements](screenshots/19-admin-measurements.png)
+![Admin food catalog](screenshots/20-admin-foods.png)
+![Admin exercise catalog](screenshots/21-admin-exercises.png)
+
+#### Support and broadcast
+![Admin support tickets](screenshots/22-admin-tickets.png)
+![Admin broadcast composer](screenshots/23-admin-broadcast.png)
